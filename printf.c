@@ -41,12 +41,6 @@ int _printf(const char *format, ...)
                 write(1, "%", 1);
                 count++;
             }
-            else if (*format == 'd' || *format == 'i')
-            {
-                int num = va_arg(args, int);
-                print_number(num);
-                count += num_digits(num);
-            }
             else
             {
                 write(1, "%", 1);
@@ -64,44 +58,5 @@ int _printf(const char *format, ...)
 
     va_end(args);
 
-    return count;
-}
-
-/**
- * print_number - Prints an integer.
- * @num: The integer to print.
- */
-void print_number(int num)
-{
-    if (num < 0)
-    {
-        write(1, "-", 1);
-        num = -num;
-    }
-
-    if (num / 10 != 0)
-        print_number(num / 10);
-
-    char digit = '0' + (num % 10);
-    write(1, &digit, 1);
-}
-
-/**
- * num_digits - Calculates the number of digits in an integer.
- * @num: The integer.
- *
- * Return: The number of digits.
- */
-int num_digits(int num)
-{
-    int count = 0;
-    if (num == 0)
-        return 1;
-
-    while (num != 0)
-    {
-        num /= 10;
-        count++;
-    }
     return count;
 }
