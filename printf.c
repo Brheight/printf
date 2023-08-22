@@ -36,6 +36,42 @@ int _printf(const char *format, ...)
                     count++;
                 }
             }
+            else if (*format == 'd' || *format == 'i')
+            {
+                int num = va_arg(args, int);
+                int num_digits = 0;
+                int temp = num;
+
+                if (num == 0)
+                {
+                    write(1, "0", 1);
+                    count++;
+                }
+                else if (num < 0)
+                {
+                    write(1, "-", 1);
+                    count++;
+                    num = -num;
+                }
+
+                while (temp != 0)
+                {
+                    temp /= 10;
+                    num_digits++;
+                }
+
+                char num_str[num_digits + 1];
+                num_str[num_digits] = '\0';
+
+                while (num != 0)
+                {
+                    num_str[--num_digits] = '0' + (num % 10);
+                    num /= 10;
+                }
+
+                write(1, num_str, num_digits);
+                count += num_digits;
+            }
             else if (*format == '%')
             {
                 write(1, "%", 1);
